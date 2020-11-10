@@ -6,7 +6,7 @@
 /*   By: cbach <cbach@student.21-school.ru>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 19:15:17 by cbach             #+#    #+#             */
-/*   Updated: 2020/11/10 23:07:40 by cbach            ###   ########.fr       */
+/*   Updated: 2020/11/10 23:14:10 by cbach            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -226,8 +226,8 @@ int ft_strlen_tests()
 
 int main(int argc, char **argv)
 {
-//	int result = ft_strcmp_tests() && ft_read_tests() && ft_strcpy_tests() && ft_strdup_tests() && ft_strlen_tests() && ft_write_tests();
-	int result =  ft_strcmp_tests();
+	int result = ft_strcmp_tests() && ft_read_tests() && ft_strcpy_tests() && ft_strdup_tests() && ft_strlen_tests() && ft_write_tests();
+	//int result =  ft_strcmp_tests();
 	if (result)
 		printf("ALL TESTS PASSED !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
 	else
