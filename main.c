@@ -6,7 +6,7 @@
 /*   By: cbach <cbach@student.21-school.ru>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 19:15:17 by cbach             #+#    #+#             */
-/*   Updated: 2020/11/10 20:54:14 by cbach            ###   ########.fr       */
+/*   Updated: 2020/11/10 23:07:40 by cbach            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,12 +85,13 @@ int write_test(char *path1, char *path2, char *text, size_t size, int fdtest)
 	if (!fdtest)
 		close(fd_asm);
 	if (!fdtest)
-		fd_orig = open(path2, O_RDONLY);
+		fd_orig = open(path2, O_WRONLY | O_APPEND | O_TRUNC, 0666);
 	count_orig = write(fdtest ? -1 : fd_orig, text, size);
 	errnoorig = errno;
 	if (!fdtest)
 		close(fd_orig);
-	res = filecmp(path1, path2) == 0 && count_asm == count_orig && errnoasm == errnoorig;
+	//res = filecmp(path1, path2) == 0 && count_asm == count_orig && errnoasm == errnoorig;
+	res = count_asm == count_orig && errnoasm == errnoorig;
 	if (res)
 		printf("****************\tWRITE TEST BELOW IS PASSED!\t****************\n");
 	else
@@ -104,7 +105,7 @@ int write_test(char *path1, char *path2, char *text, size_t size, int fdtest)
 int ft_write_tests()
 {
 	return (
-	write_test("asm.txt", "orig.txt", "", 0, 0) && write_test("asm.txt", "orig.txt", "privetik", 5, 0) && write_test("asm.txt", "orig.txt", "55555", 5, 0) && write_test("asm.txt", "orig.txt", "\n", 1, 0) &&
+	write_test("asm.txt", "orig.txt", "", -1, 0) && write_test("asm.txt", "orig.txt", "privetik", 0, 0) && write_test("asm.txt", "orig.txt", "55555", 5, 0) && write_test("asm.txt", "orig.txt", "\n", 1, 0) &&
 	write_test("asm.txt", "orig.txt", "salam aleikum", 10, 0) && write_test("asm.txt", "orig.txt", "kek", 3, 0) && write_test("asm.txt", "orig.txt", "aasdfdvcxbgfbfgnthyrth fgdfgn ", 100000, 0) && write_test("asm.txt", "orig.txt", "testttttt", 6, 0) &&
 	write_test("kekw.txt", "orig.txt", "lol", 0, 1) && write_test("asm.txt", "kekw.text", "lul", 0, 1) && write_test("kekw.txt", "kekw.txt", "haha", 0, 1) &&
 	write_test("asm.txt", "orig.txt",
@@ -225,9 +226,8 @@ int ft_strlen_tests()
 
 int main(int argc, char **argv)
 {
-	int result = ft_strcmp_tests();
-	// ft_strcmp_tests();
-	//ft_read_tests(); // && ft_strcpy_tests() && ft_strdup_tests() && ft_strlen_tests() && ft_write_tests();
+//	int result = ft_strcmp_tests() && ft_read_tests() && ft_strcpy_tests() && ft_strdup_tests() && ft_strlen_tests() && ft_write_tests();
+	int result =  ft_strcmp_tests();
 	if (result)
 		printf("ALL TESTS PASSED !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
 	else

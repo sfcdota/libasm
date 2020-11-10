@@ -1,10 +1,11 @@
 global _ft_strcmp
-
 section .text
 	
 _ft_strcmp:
 	xor rcx, rcx
 	xor rax, rax
+	xor rdx, rdx
+
 .loop:
 	mov dh, byte[rdi + rcx]
 	mov dl, byte[rsi + rcx]
@@ -15,12 +16,7 @@ _ft_strcmp:
 	jnz .loop
 
 exit:
-	sub dh, dl
 	mov al, dh
-	jc kek
-	ret
-
-kek:
-	neg dh
-	mov al, dh
+	xor dh, dh
+	sub rax, rdx
 	ret
