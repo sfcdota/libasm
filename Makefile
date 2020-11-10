@@ -6,13 +6,13 @@
 #    By: cbach <cbach@student.21-school.ru>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/07 19:15:19 by cbach             #+#    #+#              #
-#    Updated: 2020/11/10 20:08:32 by cbach            ###   ########.fr        #
+#    Updated: 2020/11/10 23:58:56 by cbach            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME =	libasm.a
 
-#C_FLAGS = -Wall -Wextra -Werror
+C_FLAGS = -Wall -Wextra -Werror
 
 NASM_FLAG = -fmacho64
 
@@ -43,24 +43,25 @@ $(NAME): $(OBJ_FILES)
 bonus:
 	$(MAKE) BONUS_FILES=1 all
 
-#.depend: $(ASM_SRC) $(ASM_BONUS)
-#	rm -f .depend
-#	nasm $(NASM_FLAG) -MF $^ > .depend
-
-#-include .depend
-
-%.o: %.s
+%.o: %.s $(HEADERS)
 	nasm $(NASM_FLAG) $< -o $@
+#	nasm $(NASM_FLAG) -M $< >> .depend
+
+-include .depend
 
 clean:
-	rm -f $(OBJ) $(OBJ_BONUS) .depend
+	rm -f $(OBJ) $(OBJ_BONUS)
 
 fclean: clean
 	rm -f $(NAME)
 	rm -f a.out
+	rm -f asm.txt
+	rm -f orig.txt
+#	rm -f .depend
 
 re: fclean all
 
 test: re
+	touch asm.txt orig.txt
 	gcc $(C_FLAGS) $(C_SRC) -L$(LIBASM_DIR) -lasm
 	./a.out | cat -e

@@ -6,7 +6,7 @@
 /*   By: cbach <cbach@student.21-school.ru>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 19:15:17 by cbach             #+#    #+#             */
-/*   Updated: 2020/11/10 23:14:10 by cbach            ###   ########.fr       */
+/*   Updated: 2020/11/10 23:56:51 by cbach            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,24 @@ int ft_read_test(char *path, size_t size)
 	int fd_asm;
 	int fd_orig;
 	int res;
+	int errno_asm;
+	int errno_orig;
 	fd_asm = open(path, O_RDONLY);
 	count_asm = ft_read(fd_asm, r_asm, size);
+	errno_asm = errno;
 	close(fd_asm);
 	fd_orig = open(path, O_RDONLY);
 	count_orig = read(fd_orig, r_orig, size);
+	errno_orig = errno;
 	close(fd_orig);
-	if ((res = strcmp(r_asm, r_orig) == 0 && count_asm == count_orig))
+	res = strcmp(r_asm, r_orig) == 0 && count_asm == count_orig && errno_asm == errno_orig;
+	if (res)
 		printf("****************\tREAD TEST BELOW IS PASSED!\t****************\n");
 	else
 		printf("****************\tREAD TEST BELOW NOT PASSED!!!!!!!!!!!!\t****************\n");
 	printf("asm read = %s\nasm symbols = %d\n"
-		 "orig read = %s\norig symbols = %d\n", r_asm, count_asm, r_orig, count_orig);
+		 "orig read = %s\norig symbols = %d\n"
+		 "errno asm = %d\nerrno orig = %d\n****************************************************************************************\n\n\n", r_asm, count_asm, r_orig, count_orig, errno_asm, errno_orig);
 	free(r_asm);
 	free(r_orig);
 	return (res);
@@ -41,9 +47,9 @@ int ft_read_test(char *path, size_t size)
 int ft_read_tests()
 {
 	return (
-	ft_read_test("", 0) && ft_read_test("", 0) && ft_read_test("", 0) && ft_read_test("", 0) &&
-	ft_read_test("", 0) && ft_read_test("", 0) && ft_read_test("", 0) && ft_read_test("", 0) &&
-	ft_read_test("", 0) && ft_read_test("", 0) && ft_read_test("", 0) && ft_read_test("", 0));
+	ft_read_test("orig.txt", 0) && ft_read_test("orig.txt", 3255) && ft_read_test("asm.txt", 0) && ft_read_test("asm.txt", 4435) &&
+	ft_read_test("orig.txt", -1) && ft_read_test("asm.txt", -1) && ft_read_test("ffff", 2) && ft_read_test("kekw", 10) &&
+	ft_read_test("orig.txt", 10000000) && ft_read_test("asm.txt", 10000000) && ft_read_test("", 10000000) && ft_read_test("prik", 0));
 }
 
 int filecmp(char *path1, char *path2)
@@ -224,9 +230,9 @@ int ft_strlen_tests()
 
 
 
-int main(int argc, char **argv)
+int main()
 {
-	int result = ft_strcmp_tests() && ft_read_tests() && ft_strcpy_tests() && ft_strdup_tests() && ft_strlen_tests() && ft_write_tests();
+	int result = ft_strcmp_tests() && ft_strcpy_tests() && ft_strdup_tests() && ft_strlen_tests() && ft_write_tests() && ft_read_tests();
 	//int result =  ft_strcmp_tests();
 	if (result)
 		printf("ALL TESTS PASSED !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
