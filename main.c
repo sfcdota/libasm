@@ -6,7 +6,7 @@
 /*   By: cbach <cbach@student.21-school.ru>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 19:15:17 by cbach             #+#    #+#             */
-/*   Updated: 2020/11/10 23:56:51 by cbach            ###   ########.fr       */
+/*   Updated: 2020/11/11 00:44:57 by cbach            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int ft_read_test(char *path, size_t size)
 {
-	char *r_asm = malloc(sizeof(char) * (size + 1));
-	char *r_orig = malloc(sizeof(char) * (size + 1));
+	char *r_asm = calloc(sizeof(char), (size + 1));
+	char *r_orig = calloc(sizeof(char), (size + 1));
 	int count_asm;
 	int count_orig;
 	int fd_asm;
@@ -36,11 +36,9 @@ int ft_read_test(char *path, size_t size)
 		printf("****************\tREAD TEST BELOW IS PASSED!\t****************\n");
 	else
 		printf("****************\tREAD TEST BELOW NOT PASSED!!!!!!!!!!!!\t****************\n");
-	printf("asm read = %s\nasm symbols = %d\n"
+	printf("PATH = %s\nasm read = %s\nasm symbols = %d\n"
 		 "orig read = %s\norig symbols = %d\n"
-		 "errno asm = %d\nerrno orig = %d\n****************************************************************************************\n\n\n", r_asm, count_asm, r_orig, count_orig, errno_asm, errno_orig);
-	free(r_asm);
-	free(r_orig);
+		 "errno asm = %d\nerrno orig = %d\n****************************************************************************************\n\n\n", path, r_asm, count_asm, r_orig, count_orig, errno_asm, errno_orig);
 	return (res);
 }
 
